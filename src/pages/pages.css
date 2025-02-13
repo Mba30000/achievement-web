@@ -1,0 +1,459 @@
+
+.input-field {
+  width: 100%;
+  padding: 0.75rem;
+  padding-left: 2.5rem;
+  text-align: center;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+}
+.btn-green {
+  width: 100%;
+  background-color: #10b981;;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+}
+.btn-google {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* Tab.css */
+
+.tab {
+    width: 100% - 50px; /* Square shape */
+    max-height: fit-content;
+    background-color: rgba(255, 255, 255, 0.5); /* White with 50% transparency */
+    border-radius: 12px; /* Rounded edges */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-bottom: 50px;
+    padding: 20px;
+}
+
+/* ScrollPane.css */
+
+.scroll-pane-container {
+    position: absolute;
+    top: 80px; /* Adjust this value to keep space for the navbar */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%; /* Adjust width as needed */
+    height: calc(100vh - 120px); /* Takes full height minus the navbar height */
+    overflow-y: auto; /* Enables scrolling */
+    padding: 20px;
+}
+
+/* Modern Thin Scrollbar */
+.scroll-pane-container::-webkit-scrollbar {
+    width: 6px; /* Thin scrollbar */
+}
+
+.scroll-pane-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3); /* Darker scrollbar */
+    border-radius: 10px; /* Rounded edges */
+}
+
+.scroll-pane-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.5); /* Darker on hover */
+}
+
+.scroll-pane-container::-webkit-scrollbar-track {
+    background: transparent; /* Hide track */
+}
+
+/* Profile Container */
+.profile-container {
+  margin: 20px auto;
+  margin-top: 90px;  
+  max-width: 90%;
+  max-height: 80%;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Profile Image */
+.profile-pic {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #116530;
+  margin-bottom: 10px;
+}
+
+/* Profile Card Info */
+.profile-info {
+  margin-bottom: 20px;
+}
+
+.profile-info h2 {
+  font-size: 22px;
+  color: #333;
+}
+
+.profile-info p {
+  font-size: 16px;
+  color: #666;
+}
+
+/* Buttons */
+.profile-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-buttons button{
+  width: 80%;
+  padding: 12px;
+  margin: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 30px;
+  background: #10b981;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.profile-buttons button:hover {
+  background:  #10b981;
+}
+
+/* Edit Profile Form */
+.profile-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.profile-form input,
+.profile-form select {
+  width: 80%;
+  padding: 10px;
+  margin: 10px;
+  border: 2px solid #011627;
+  border-radius: 30px;
+  font-size: 16px;
+  outline: none;
+  background: transparent;
+  color: #333;
+}
+
+/* Full-width input for email */
+.full-width {
+  grid-column: span 4;
+}
+
+/* Disabled fields */
+.profile-form input:disabled,
+.profile-form select:disabled {
+  background: #f5f5f5;
+  color: #888;
+}
+.edit-profile-link {
+  display: inline-block;
+  color:  #10b981;  /* Always Green */
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  transition: color 0.3s ease-in-out;
+}
+
+.edit-profile-link:hover {
+  color: darkgreen; /* Slightly darker green on hover */
+}
+.achievement-container {
+  max-width: 90%;
+  margin: 50px auto;
+  margin-top: 90px;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.achievement-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+.input-field {
+  width: 250px;
+  padding: 10px;
+  border: 2px solid black;
+  border-radius: 20px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.contributor-field {
+  display: flex;
+  align-items: center;
+}
+
+.add-contributor {
+  background: black;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.description-box {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  border: 2px solid black;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+
+
+
+/* Image styling */
+.achievement-image {
+  width: 50%;
+  height: 30%;
+  border-radius: 10px;
+  margin-right: 20px;
+}
+
+/* Details of the achievement */
+.achievement-details {
+  flex: 1;
+}
+
+/* Title and description styling */
+.achievement-details h2 {
+  font-size: 1.6rem;
+  color: #333;
+  margin: 0 0 10px 0;
+}
+
+.achievement-details p {
+  font-size: 1rem;
+  color: #666;
+  margin: 0 0 10px 0;
+}
+
+/* Emphasized text for the date */
+.achievement-details em {
+  font-style: italic;
+  color: #999;
+}
+
+/* Section headers for "Key Person" and "Contributors" */
+h3 {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #444;
+}
+
+/* Contributor list */
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+ul li {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+/* Key Person styling */
+.achievement-details h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Timestamp styling */
+.timestamp {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-top: 10px;
+}
+
+/* Optional media query for mobile responsiveness */
+@media (max-width: 768px) {
+  .tab {
+      flex-direction: column;
+      align-items: flex-start;
+  }
+
+  .achievement-image {
+      margin-right: 0;
+      margin-bottom: 15px;
+  }
+}
+
+.menu-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.menu-icon {
+  margin-top:20px;
+  margin-right: 20px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.menu-dropdown {
+  position: absolute;
+  right: 40px;
+  top: 25px;
+  background: white;
+  border: px solid #ccc;
+  border-radius: 50px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+.menu-dropdown button {
+  display: block;
+  width: 100%;
+  padding: 8px 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.menu-dropdown button:hover {
+  background: #f0f0f0;
+  z-index: -100;
+}
+
+/* Icons inside the menu buttons */
+.menu-dropdown button svg {
+  margin-right: 10px auto;
+  width: 20px;
+  height: 20px;
+}
+
+/* Hover effect */
+.menu-dropdown button:hover {
+  background: #f0f0f0;
+}
+.image-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.upload-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.upload-btn:hover {
+  background-color: #0056b3;
+}
+
+.image-preview-container {
+  position: relative;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.preview-image {
+  width: 150px;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.remove-image {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.transparent-btn {
+  background: transparent; 
+  border: none; 
+  padding: 5px; 
+  cursor: pointer; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+}
+
+.transparent-btn:focus {
+  outline: none; /* Removes the outline when focused */
+}
+
+.menu-icon {
+  color: #000; /* You can change the color to match your design */
+  font-size: 1.5em; /* Adjust icon size as needed */
+}
+
+.menu-dropdown {
+  position: absolute; 
+  top: 100%; 
+  right: 0; 
+  background-color: white; 
+  border: 1px solid #ccc; 
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.menu-dropdown button {
+  background: transparent;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+}
+
+.menu-dropdown button:hover {
+  background-color: #f0f0f0;
+}
+
+
+
