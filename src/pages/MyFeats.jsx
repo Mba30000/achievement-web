@@ -1,66 +1,90 @@
-import { useState } from "react";
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import Navbar from "../components/Navbar";
-import { FaEllipsisV, FaEdit, FaTrash, FaTimes } from "react-icons/fa";
+import { useFetchPeople, useFetchAchievements, useFetchDepartments } from "./Utilities/containers";
+import AchievementContainer from "./Utilities/containers";
+import { DeleteAchievement } from './Utilities/api'; // Import DeleteAchievement method
 
 export default function MyFeats() {
-    // State to track which dropdown is open
-    const [openMenu, setOpenMenu] = useState(null);
+    const navigate = useNavigate(); // Initialize navigate hook
+    const userId = localStorage.getItem('userid');
+    
+    // Initialize achievements state locally if setAchievements is not provided by hook
+    const [achievements, setAchievements] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-    // Function to generate mock achievements
-    const getMockAchievements = () => {
-        return [
-            {
-                title: "Achievement type",
-                description: "A short description of the achievement",
-                date: "{Date}",
-                keyPerson: { name: "Key person", role: "role" },
-                contributors: [
-                    { name: "Contributor 1", role: "role" },
-                    { name: "Contributor 2", role: "role" },
-                    { name: "Contributor 3", role: "role" }
-                ],
-                imageUrl: "https://pbs.twimg.com/media/GjQ6F1ZWwAA_hR1?format=jpg&name=4096x4096"
+    // Fetch achievements and related data
+    const { achievements: fetchedAchievements, loadingAchievements } = useFetchAchievements(`user/${userId}`);
+    const { departments, loadingDepartments } = useFetchDepartments(fetchedAchievements);
+    const { people, loadingPeople } = useFetchPeople(fetchedAchievements);
+
+    useEffect(() => {
+        // Set achievements when fetchedAchievements changes
+        setAchievements(fetchedAchievements);
+    }, [fetchedAchievements]);
+
+    const handleDelete = async (achievementId, index) => {
+        // Show confirmation alert
+        const confirmed = window.confirm('Are you sure you want to delete this achievement?');
+        if (confirmed) {
+            const result = await DeleteAchievement(achievementId);
+
+            if (result) {
+                alert('Achievement deleted successfully!');
+                window.location.reload();
+            } else {
+                alert('Failed to delete achievement.');
             }
-        ];
+            setLoading(false);
+        }
     };
 
-    const achievements = getMockAchievements();
+    const handleEdit = (achievementId) => {
+        navigate(`/edit-achievement/${achievementId}`); // Navigate to edit page with achievementId
+    };
+    
+
+    // Check if there are no achievements
+    if (achievements.length === 0) {
+        return (
+            <div>
+                <div className="scroll-pane-container">
+                    <div>
+                       You have not added any achievements
+                    </div>
+                    <div onClick={() => navigate('/add-achievement')} style={{ color: 'blue', cursor: 'pointer' }} className='link'>
+                       Click HERE to add an achievement
+                    </div>
+                </div>
+                <Navbar />
+            </div>
+        );
+    } else if (loadingAchievements || loadingDepartments || loadingPeople || loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div>
-            <Navbar />
             <div className="scroll-pane-container">
-                {achievements.map((achievement, index) => (
-                    <div key={index} className="tab">
-                        {/* Three-Dot Menu (Right-Aligned) */}
-                        <div className="menu-container">
-                            <FaEllipsisV className="menu-icon" onClick={() => setOpenMenu(openMenu === index ? null : index)} />
-                            {openMenu === index && (
-                                <div className="menu-dropdown">
-                                    <button><FaEdit /></button>
-                                    <button><FaTrash /></button>
-                                </div>
-                            )}
-                        </div>
-                        {/* Achievement Content */}
-                        <img src={achievement.imageUrl} alt="Achievement" className="achievement-image" />
-                        <div className="achievement-details">
-                            <h2>{achievement.title}</h2>
-                            <p>{achievement.description}</p>
-                            <em>This achievement was attained on {achievement.date}</em>
-                            <h3>Key Person</h3>
-                            <h4>🏅 {achievement.keyPerson.name}: {achievement.keyPerson.role}</h4>
-                            <h3>Contributors</h3>
-                            <ul>
-                                {achievement.contributors.map((contributor, i) => (
-                                    <li key={i}>{contributor.name}: {contributor.role}</li>
-                                ))}
-                            </ul>
-                            <p className="timestamp">2 hrs ago</p>
-                        </div>
-                    </div>
-                ))}
+                {achievements.map((achievement, index) => {
+                    const department = departments[index]; // Match achievement to its department
+                    const person = people[index]; // Match achievement to its person
+
+                    return (
+                        <AchievementContainer
+                            key={index}
+                            index={index}
+                            department={department}
+                            achievement={achievement}
+                            person={person}
+                            showMenu={true}
+                            onDelete={() => handleDelete(achievement.id, index)} // Pass the delete function
+                            onEdit={() => handleEdit(achievement.id)}
+                        />
+                    );
+                })}
             </div>
+            <Navbar />
         </div>
     );
 }

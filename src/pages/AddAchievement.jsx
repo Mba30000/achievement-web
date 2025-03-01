@@ -1,108 +1,195 @@
-import { useState } from "react";
-import { FaTimes } from "react-icons/fa"; // Import the close (X) icon
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import "./pages.css"; // Ensure styling is in place
+import { CreateAchievement, EditAchievement, GetAchievement, getTypes } from "./Utilities/api";
+import "./pages.css";
 
 export default function AddAchievement() {
-  const [contributors, setContributors] = useState([""]); // Start with one input
-  const [selectedImages, setSelectedImages] = useState([]); // State for images
+  const navigate = useNavigate();
+  const { achievementId } = useParams();
 
-  const handleContributorChange = (index, value) => {
-    const updatedContributors = [...contributors];
-    updatedContributors[index] = value;
+  // State for form fields
+  const [title, setTitle] = useState("");
+  const [date, setDate] = useState("");
+  const [type, setType] = useState(""); // store the selected type ID
+  const [visibility, setVisibility] = useState("");
+  const [description, setDescription] = useState("");
+  const [types, setTypes] = useState([]); // state to hold the types data
+  const [isLoaded, setIsLoaded] = useState(false);
 
-    // If user starts typing in last input, add a new empty one
-    if (value.trim() !== "" && index === contributors.length - 1) {
-      updatedContributors.push("");
+  useEffect(() => {
+    const fetchTypes = async () => {
+      try {
+        const fetchedTypes = await getTypes(); // Assuming getTypes is the function that fetches the types
+        setTypes(fetchedTypes); // Save fetched types into the state
+      } catch (err) {
+        console.error("Error fetching types:", err);
+      }
+    };
+
+    const fetchAchievementData = async () => {
+      if (!achievementId) {
+        setIsLoaded(true);
+        return;
+      }
+      try {
+        const achievement = await GetAchievement(achievementId);
+        if (achievement) {
+          setTitle(achievement.title || "");
+          setDate(achievement.date ? achievement.date.split("T")[0] : ""); // Ensure date is correctly formatted for the input field
+          setType(achievement.achievement_type_id || ""); // Set the type ID when editing
+          setVisibility(achievement.visibility || "");
+          setDescription(achievement.description || "");
+        }
+      } catch (err) {
+        console.error("Error fetching achievement data:", err);
+      } finally {
+        setIsLoaded(true);
+      }
+    };
+
+    fetchTypes(); // Fetch types when the component mounts
+    fetchAchievementData(); // Fetch achievement data if editing
+  }, [achievementId]);
+
+  const handleSave = async () => {
+    const currentTitle = title.trim();
+    const currentDate = date.trim();
+    const currentType = type; // This is the ID of the selected type
+    const currentVisibility = visibility;
+    const currentDescription = description.trim();
+
+    if (!currentTitle || !currentDate || !currentType || !currentVisibility || !currentDescription) {
+      alert("All fields are required.");
+      return;
     }
 
-    setContributors(updatedContributors);
-  };
+    if (isNaN(new Date(currentDate).getTime())) {
+      alert("Invalid date. Please enter a valid date.");
+      return;
+    }
 
-  const handleContributorBlur = (index) => {
-    // Remove empty fields except the last one
-    setContributors((prev) =>
-      prev.filter((contributor, i) => contributor.trim() !== "" || i === prev.length - 1)
-    );
-  };
+    const formattedDate = currentDate.length === 10 ? `${currentDate}T00:00:00.000` : currentDate;
 
-  const handleImageChange = (event) => {
-    const files = event.target.files;
-    if (files) {
-      const newImages = Array.from(files).map((file) => URL.createObjectURL(file));
-      setSelectedImages((prevImages) => [...prevImages, ...newImages]); // Add new images to the state
+    const dataToSend = {
+      achievement: {
+        title: currentTitle,
+        date: formattedDate,
+        achievement_type_id: currentType, 
+        visibility: currentVisibility,
+        primary_person_id: localStorage.getItem("userid"),
+        department_id: localStorage.getItem("departmentid"),
+        description: currentDescription,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      },
+      contributors: [], // Assuming contributors are empty for now
+    };
+
+    try {
+      let result;
+      if (achievementId) {
+        result = await EditAchievement(achievementId, dataToSend);
+      } else {
+        result = await CreateAchievement(dataToSend);
+      }
+
+      if (result) {
+        alert("Achievement saved successfully!");
+        navigate("/my-feats");
+      } else {
+        alert("Failed to save achievement.");
+      }
+    } catch (error) {
+      console.error("Error saving achievement:", error);
+      alert("Error saving achievement. Please try again.");
     }
   };
 
-  const removeImage = (imageUrl) => {
-    setSelectedImages((prevImages) => prevImages.filter((image) => image !== imageUrl)); // Remove the selected image
-  };
+  if (!isLoaded) {
+    return <div>Loading...</div>; // Display loading state
+  }
 
   return (
     <div>
       <Navbar />
       <div className="achievement-container">
-        <h2>Add Achievement</h2>
+        <h2>{achievementId ? "Edit Achievement" : "Add Achievement"}</h2>
 
         <div className="achievement-form">
           {/* Title */}
-          <input type="text" placeholder="Title" className="input-field" />
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginTop: "10px" }}>
+            <div>Achievement Title:</div>
+            <input
+              type="text"
+              className="input-field"
+              style={{ marginTop: "10px" }}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
 
           {/* Date */}
-          <input type="date" className="input-field" />
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginTop: "10px" }}>
+            <div>Date Attained:</div>
+            <input
+              type="date"
+              className="input-field"
+              style={{ marginTop: "10px" }}
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+          </div>
 
           {/* Type */}
-          <select className="input-field">
-            <option>Type</option>
-            <option>Award</option>
-            <option>Certification</option>
-            <option>Project</option>
-          </select>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginTop: "10px" }}>
+            <div>Achievement Type:</div>
+            <select
+              className="input-field"
+              style={{ marginTop: "10px" }}
+              value={type}
+              onChange={(e) => setType(e.target.value)} // Update state when user selects a type
+            >
+              <option value="">Select Type</option>
+              {types.map((typeItem) => (
+                <option key={typeItem.id} value={typeItem.id}>
+                  {typeItem.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
           {/* Visibility */}
-          <select className="input-field">
-            <option>Visibility</option>
-            <option>Public</option>
-            <option>Private</option>
-          </select>
-
-          {/* Contributors */}
-          <div className="contributor-field" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
-            {contributors.map((contributor, index) => (
-              <input
-                key={index}
-                type="text"
-                placeholder="Add contributors"
-                className="input-field"
-                value={contributor}
-                onChange={(e) => handleContributorChange(index, e.target.value)}
-                onBlur={() => handleContributorBlur(index)}
-                style={{ margin: "10px" }}
-              />
-            ))}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginTop: "10px" }}>
+            <div>Visibility:</div>
+            <select
+              className="input-field"
+              style={{ marginTop: "10px" }}
+              value={visibility}
+              onChange={(e) => setVisibility(e.target.value)}
+            >
+              <option value="">Visibility</option>
+              <option value="Public">Public</option>
+              <option value="Private">Private</option>
+            </select>
           </div>
 
-          {/* Image Upload */}
-          <div className="image-upload">
-            <input type="file" accept="image/*" id="imageUpload" multiple onChange={handleImageChange} style={{ display: "none" }} />
-            <label htmlFor="imageUpload" className="upload-btn">📷 Upload Images</label>
-
-            {/* Show Preview if Images are Selected */}
-            <div className="image-preview-container">
-              {selectedImages.map((image, index) => (
-                <div key={index} className="image-preview">
-                  <img src={image} alt={`Preview ${index}`} className="preview-image" />
-                  <FaTimes className="remove-image" onClick={() => removeImage(image)} />
-                </div>
-              ))}
-            </div>
+          {/* Description */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginTop: "10px" }}>
+            <div>Description:</div>
+            <textarea
+              placeholder="Description"
+              className="description-box"
+              style={{ marginTop: "10px" }}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
           </div>
+        </div>
 
-          {/* Description Box */}
-          <textarea placeholder="Description" className="description-box"></textarea>
-
-          {/* Save Changes Button */}
-          <div className="profile-buttons"><button>Add</button></div>
+        {/* Save Changes Button */}
+        <div className="profile-buttons">
+          <button onClick={handleSave}>{achievementId ? "Save Changes" : "Add Achievement"}</button>
         </div>
       </div>
     </div>

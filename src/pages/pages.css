@@ -82,8 +82,8 @@
 .profile-container {
   margin: 20px auto;
   margin-top: 90px;  
-  max-width: 90%;
-  max-height: 80%;
+  width: 90%;
+  height: 90%;
   padding: 20px;
   background: white;
   border-radius: 10px;
@@ -173,7 +173,8 @@
   background: #f5f5f5;
   color: #888;
 }
-.edit-profile-link {
+
+.link {
   display: inline-block;
   color:  #10b981;  /* Always Green */
   font-size: 18px;
@@ -309,6 +310,7 @@ ul li {
 /* Optional media query for mobile responsiveness */
 @media (max-width: 768px) {
   .tab {
+    position: relative;
       flex-direction: column;
       align-items: flex-start;
   }
@@ -319,18 +321,21 @@ ul li {
   }
 }
 
+.tab {
+  position: relative; /* Make .tab the reference point for absolute positioning */
+}
+
 .menu-container {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+  position: absolute; /* Position it inside the tab */
+  top: 10px; /* Align to the top */
+  right: 10px; /* Align to the right */
 }
 
 .menu-icon {
-  margin-top:20px;
-  margin-right: 20px;
   cursor: pointer;
   font-size: 20px;
 }
+
 
 .menu-dropdown {
   position: absolute;
@@ -457,3 +462,54 @@ ul li {
 
 
 
+.back-button {
+  width: auto; /* Adjusts based on content */
+  max-height: fit-content;
+  background-color: rgba(255, 255, 255, 0.5); /* White with 50% transparency */
+  border-radius: 12px; /* Rounded edges */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-bottom: 50px;
+  padding: 10px 20px; /* Adds more horizontal padding */
+  position: relative; /* Ensures top property works */
+  top: 100px;
+  left:10%;
+}
+
+
+/* Hover Effect */
+.back-button:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+  transform: translateY(-2px); /* Slight lift effect */
+}
+
+
+.profile-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.profile-form label {
+  display: block; /* Ensures the label is displayed as a block element, forcing it to appear above the input field */
+  font-weight: bold;
+  margin-bottom: 0.5rem; /* Space between label and input */
+}
+
+.profile-form input,
+.profile-form select {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Ensures padding is included in the total width */
+}
+
+.profile-form select {
+  padding: 0.8rem;
+}
