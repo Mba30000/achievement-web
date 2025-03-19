@@ -52,7 +52,6 @@ export default function AchievementDetails() {
                     showMenu={false} 
                 />
             </div>
-            <Navbar />
         </div>
     );
 }

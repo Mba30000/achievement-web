@@ -109,13 +109,15 @@ function NavItem({ icon, label, to, currentPath, className, onClick }) {
     // Check if the current path matches the nav item to apply active class
     const isActive = currentPath === to;
     return (
-        <Link
+        <div>
+          <Link
             to={to}
             className={`nav-item ${className} ${isActive ? "active" : ""}`} // Add "active" class if matched
             onClick={onClick}
-        >
+          >
             <div className="icon">{icon}</div>
             <span className="label">{label}</span>
-        </Link>
+          </Link>
+        </div>
     );
 }

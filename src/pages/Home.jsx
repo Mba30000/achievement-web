@@ -2,7 +2,7 @@ import { FaListCheck } from "react-icons/fa6";
 import Navbar from "../components/Navbar";
 import AchievementContainer from "./Utilities/containers";
 import { useFetchPeople, useFetchAchievements, useFetchDepartments } from "./Utilities/containers";
-
+import AdminNav from "../components/AdminNav";
 const Home = () => {
     const { achievements: fetchedAchievements, loadingAchievements } = useFetchAchievements("recent"); // Fetch achievements with "recent" category
     const { departments, loadingDepartments } = useFetchDepartments(fetchedAchievements);
@@ -32,7 +32,6 @@ const Home = () => {
                     );
                 })}
             </div>
-            <Navbar />
         </div>
     );
 };

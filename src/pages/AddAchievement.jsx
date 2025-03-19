@@ -112,7 +112,6 @@ export default function AddAchievement() {
 
   return (
     <div>
-      <Navbar />
       <div className="achievement-container">
         <h2>{achievementId ? "Edit Achievement" : "Add Achievement"}</h2>
 

@@ -10,7 +10,14 @@ import PrivateRoute from "./PrivateRoute";
 import UserAchievements from "./pages/UserAchievements";
 import DepartmentAchievements from "./pages/DepartmentAchievements";
 import AchievementDetails from "./pages/AchievementDetails";
+import ManageUsers from "./pages/manageUsers";
 import "./index.css";
+import AdminNav from "./components/AdminNav";
+import Navbar from "./components/Navbar";
+import ManageDept from "./pages/manageDepts";
+import ManageTypes from "./pages/manageTypes";
+import ManageAttributes from "./pages/manageAttributes";
+import ManageRoles from "./pages/manageRoles";
 
 function App() {
   return (
@@ -92,7 +99,52 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/manageUsers"
+          element={
+            <PrivateRoute>
+              <ManageUsers />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/manageDepts"
+          element={
+            <PrivateRoute>
+              <ManageDept />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/manageAcheivType"
+          element={
+            <PrivateRoute>
+              <ManageTypes />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/ManageAttributes"
+          element={
+            <PrivateRoute>
+              <ManageAttributes />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/ManageRoles"
+          element={
+            <PrivateRoute>
+              <ManageRoles />
+            </PrivateRoute>
+          }
+        />
       </Routes>
+      
+      <PrivateRoute>
+              <AdminNav />
+              <Navbar/>
+      </PrivateRoute>
     </Router>
   );
 }

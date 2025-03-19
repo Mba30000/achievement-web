@@ -41,7 +41,6 @@ export default function DepartmentFeats() {
                         );
                     })}
                 </div>
-            <Navbar />
         </div>
     );
 }

@@ -84,7 +84,6 @@ export default function MyFeats() {
                     );
                 })}
             </div>
-            <Navbar />
         </div>
     );
 }

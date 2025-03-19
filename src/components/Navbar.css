@@ -123,3 +123,116 @@
     top: 100%;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
+
+
+/* Admin Bar */
+
+.container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    padding-top: 0.5%;
+    min-width: 200px;
+    min-height: 200px;
+    padding-bottom: 0.5%;
+}
+.container .wrapper {
+    position: absolute;
+    border-radius: 10px;
+    align-items: center;
+    display: flex;
+    overflow: visible;
+}
+.container .wrapper.side {
+    background-color: #f6f6f6;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    color: #000000;
+    width: 60px;
+    height: fit-content;
+    position: fixed;
+    top: 55%;
+    left: 0;  /* Keep it aligned to the left */
+    transform: translateY(-50%);
+    flex-direction: column;
+    padding-bottom: 15px;
+}
+
+
+
+.wrapper.side .menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding: 8px; /* Padding around each menu item */
+    border-radius: 8px; /* Rounded corners */
+}
+.wrapper.side .menu{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: top;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding: 8px; /* Padding around each menu item */
+
+    top: 0.5%; 
+    min-height: 50px;
+    width: 30px;
+    color:azure;
+    border-bottom: 2px solid #888;
+}
+
+
+.wrapper.side .menu-item{
+    margin-top: 5px;
+    color: azure;
+}
+
+.wrapper.side .menu-item:hover::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    right: 5px;
+    bottom: 5px;
+    left: 5px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.1); /* The hover effect color */
+    z-index: -1; /* Ensure the pseudo-element is behind the content */
+    pointer-events: none; /* Prevent the pseudo-element from capturing pointer events */
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); /* Transparent shadow to keep margins uncolored */
+  }
+
+.menu-item .icon {
+    font-size: 18px; /* Adjust icon size */
+    color: rgb(44, 44, 44);
+}
+.wrapper .menu-item .text {
+    display: none; /* Initially hide text */
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.8); /* Background color of text */
+    border-radius: 4px;
+    font-size: 14px; /* Adjust text font size */
+    white-space: nowrap; /* Prevent text from wrapping */
+    width: auto;
+    user-select: none;
+    color:#000000;
+}
+.wrapper.side .menu-item .text {
+    left: calc(100% + 10px); /* Position text to the right of the icon */
+    top: 50%; /* Vertically center text */
+    transform: translateY(-50%);
+    padding: 4px 8px;
+}
+
+
+.wrapper .menu-item:hover .text {
+    display: block; /* Show text on hover */
+}
+.menu-item.active-menu .icon{
+    color: #10b981;
+    border-radius: 8px;
+}

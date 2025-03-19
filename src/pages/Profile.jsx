@@ -97,7 +97,6 @@ export default function Profile() {
 
   return (
     <div>
-      <Navbar />
       <div className="profile-container">
         {!isEditing ? (
           // PROFILE CARD VIEW
